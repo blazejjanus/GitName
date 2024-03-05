@@ -28,9 +28,9 @@ namespace GitName {
                 sb.Append("\n");
                 sb.Append("\nChanges:\n");
                 foreach(var change in Changes) {
-                    sb.Append("-" + StringUtils.FormatEntry(change));
+                    sb.Append("- " + StringUtils.FormatEntry(change));
+                    sb.Append("\n");
                 }
-                sb.Append("\n");
             }
             if(Tasks != null && Tasks.Count > 0) {
                 sb.Append("\n");
