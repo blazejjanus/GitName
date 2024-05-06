@@ -22,7 +22,6 @@ namespace GitName {
                 sb.Append("!");
             }
             sb.Append(": " + StringUtils.FormatEntry(Description));
-            sb.Append("\n");
             //Body
             if(Changes != null && Changes.Count > 0) {
                 sb.Append("\n");
