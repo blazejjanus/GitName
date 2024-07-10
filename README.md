@@ -1,6 +1,6 @@
 # GitName
 
-Simple app for generating conventional commits and branch names.
+Simple CLI tool for generating conventional commits and branch names.
 
 Usage:
   - -b - generate branch name
