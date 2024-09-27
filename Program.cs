@@ -1,12 +1,11 @@
 ﻿using GitName.Enums;
-using System.Xml.Linq;
 
 namespace GitName {
     internal class Program {
         static void Main(string[] args) {
             var opts = args.ToList();
             if(args.Length == 0) {
-                Console.WriteLine("Please provide an option:\n\t-b - branch\n\t-c --commit");
+                DisplayHelp();
                 opts.Add(Console.ReadLine() ?? "");
             }
             if(opts.Contains("-b") || opts.Contains("--branch") || opts.Contains("b")) {
@@ -15,11 +14,14 @@ namespace GitName {
             if(opts.Contains("-c") || opts.Contains("--commit") || opts.Contains("c")) {
                 GenCommit(); return;
             }
+            if(opts.Contains("-cb") || opts.Contains("--cfb") || opts.Contains("--commit-from-branch") || opts.Contains("cb")) {
+                GenCommitFromBranch(); return;
+            }
             Console.WriteLine("ERROR: No option provided!");
-            Console.WriteLine("Please provide an option:\n\t-b - branch\n\t-c --commit");
+            DisplayHelp();
         }
 
-        static void GenBranch() {
+        private static void GenBranch() {
             var name = new BranchName();
             Console.WriteLine("Generating branch name, please provide required info.");
             name.Type = Input.Enum<BranchType>("Branch type");
@@ -29,9 +31,9 @@ namespace GitName {
             Console.WriteLine(name.ToString());
         }
 
-        static void GenCommit() {
+        private static void GenCommit() {
             var name = new CommitName();
-            Console.WriteLine("Generating branch name, please provide required info.");
+            Console.WriteLine("Generating commit name, please provide required info.");
             name.Type = Input.Enum<CommitType>("Commit type");
             name.Name = Input.OptionalString("Changes area / Name (optional)");
             name.Description = Input.String("Commit description");
@@ -42,7 +44,16 @@ namespace GitName {
             Console.WriteLine(name.ToString());
         }
 
-        static List<string>? ReadList(string message, bool task = false) {
+        private static void GenCommitFromBranch() {
+            Console.WriteLine("Generating commit name, please provide required info.");
+            string branchName = Input.String("Branch name");
+            var branch = BranchName.ParseString(branchName);
+            var name = CommitName.FromBranchName(branch);
+            Console.WriteLine("\nGenerated commit name:\n");
+            Console.WriteLine(name.ToString());
+        }
+
+        private static List<string>? ReadList(string message, bool task = false) {
             var result = new List<string>();
             var b = Input.Bool(message, false);
             int counter = 1;
@@ -63,6 +74,10 @@ namespace GitName {
                 return null;
             }
             return result;
+        }
+
+        private static void DisplayHelp() {
+            Console.WriteLine("Please provide an option:\n\t-b - branch\n\t-c --commit\n\t-cb - commit from generated branch name");
         }
     }
 }
