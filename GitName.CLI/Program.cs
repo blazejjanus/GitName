@@ -1,5 +1,6 @@
 ﻿using GitName.Backend;
 using GitName.Backend.Enums;
+using GitName.CLI.Resources;
 
 namespace GitName.CLI;
 
@@ -18,6 +19,10 @@ internal class Program {
         }
         if (opts.Contains("-cb") || opts.Contains("--cfb") || opts.Contains("--commit-from-branch") || opts.Contains("cb")) {
             GenCommitFromBranch(); return;
+        }
+        if (opts.Contains("-v") || opts.Contains("--version")) {
+            Console.WriteLine($"{GeneralResources.AppName} version: {GeneralResources.AppVersion}");
+            return;
         }
         Console.WriteLine("ERROR: No option provided!");
         DisplayHelp();
